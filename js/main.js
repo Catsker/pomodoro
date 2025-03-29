@@ -12,12 +12,20 @@ const timerSound = document.getElementById('timerSound')
 
 let isRest = false
 let isStarted = false
+if (localStorage.hasOwnProperty('work')) {
+   workTimeInput.value = localStorage.getItem('work');
+}
+if (localStorage.hasOwnProperty('rest')) {
+   restTimeInput.value = localStorage.getItem('rest');
+}
 let workTime = workTimeInput.value * 60
 let restTime = restTimeInput.value * 60
 
 settingsClose.onclick = () => {
    workTime = workTimeInput.value * 60
    restTime = restTimeInput.value * 60
+   localStorage.setItem('work', workTimeInput.value)
+   localStorage.setItem('rest', restTimeInput.value)
    if (isRest) {
       minutesDisplay.textContent = Math.floor(restTime / 60)
       secondsDisplay.textContent = '00'
@@ -26,6 +34,14 @@ settingsClose.onclick = () => {
       secondsDisplay.textContent = '00'
    }
    dialogSettings.close()
+}
+
+if (isRest) {
+   minutesDisplay.textContent = Math.floor(restTime / 60)
+   secondsDisplay.textContent = '00'
+} else {
+   minutesDisplay.textContent = Math.floor(workTime / 60)
+   secondsDisplay.textContent = '00'
 }
 
 function UpdateTimer() {
